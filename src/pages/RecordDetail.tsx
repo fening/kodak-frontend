@@ -72,8 +72,8 @@ const RecordDetail: React.FC = () => {
 
   return (
     <div className="max-w-2xl mx-auto mt-8 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
-      <div className="px-6 py-4 bg-white ">
-        <h2 className="text-2xl font-bold text-gray-800"></h2>
+      <div className="px-6 py-4 bg-white border-b border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-800">Record Detail</h2>
       </div>
       <div className="p-6">
         <div className="grid grid-cols-2 gap-4">
