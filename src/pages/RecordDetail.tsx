@@ -26,7 +26,7 @@ const RecordDetail: React.FC = () => {
     const fetchRecord = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
-        const response = await axios.get(`http://127.0.0.1:8000/api/records/${id}/`, {
+        const response = await axios.get(`kodaklogisticsapi.up.railway.app/api/records/${id}/`, {
           headers: {
             Authorization: `Bearer ${user.access}`,
           },

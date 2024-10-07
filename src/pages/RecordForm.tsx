@@ -67,9 +67,9 @@ const RecordForm: React.FC = () => {
       };
 
       if (isEditing) {
-        await axios.put(`http://127.0.0.1:8000/api/records/${id}/`, record, axiosConfig);
+        await axios.put(`kodaklogisticsapi.up.railway.app/api/records/${id}/`, record, axiosConfig);
       } else {
-        await axios.post('http://127.0.0.1:8000/api/records/add/', record, axiosConfig);
+        await axios.post('kodaklogisticsapi.up.railway.app/api/records/add/', record, axiosConfig);
       }
       navigate('/');
     } catch (error) {
