@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { ArrowLeft, Edit, Loader2 } from 'lucide-react';
 
 interface Record {
   id: number;
@@ -51,82 +52,82 @@ const RecordDetail: React.FC = () => {
     return isNaN(num) ? '0.00' : num.toFixed(2);
   };
 
-  if (error) return (
-    <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
-      <p>{error}</p>
-    </div>
-  );
-  
-  if (!record) return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-    </div>
-  );
+  if (error) {
+    return (
+      <div className="max-w-2xl mx-auto mt-8 p-6 bg-red-100 border border-red-400 rounded-lg">
+        <h2 className="text-2xl font-bold text-red-700 mb-4">Error</h2>
+        <p className="text-red-700">{error}</p>
+      </div>
+    );
+  }
+
+  if (!record) {
+    return (
+      <div className="max-w-2xl mx-auto mt-8 p-6 bg-gray-100 border border-gray-300 rounded-lg flex items-center justify-center">
+        <Loader2 className="h-8 w-8 text-gray-500 animate-spin mr-2" />
+        <p className="text-xl font-semibold text-gray-700">Loading...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="bg-white shadow-md rounded-lg overflow-hidden max-w-2xl mx-auto">
-        <div className="px-6 py-4 bg-gray-100 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-800">Record Detail</h2>
-        </div>
-        <div className="p-6">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-gray-600">PO Number</p>
-              <p className="font-medium text-gray-800">{record.po_number}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Date</p>
-              <p className="font-medium text-gray-800">{record.date}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">From</p>
-              <p className="font-medium text-gray-800">{record.location_from}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">To</p>
-              <p className="font-medium text-gray-800">{record.location_to}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">DH Miles</p>
-              <p className="font-medium text-gray-800">{formatNumber(record.dh_miles)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Miles</p>
-              <p className="font-medium text-gray-800">{formatNumber(record.miles)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Fuel</p>
-              <p className="font-medium text-gray-800">${formatNumber(record.fuel)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Food</p>
-              <p className="font-medium text-gray-800">${formatNumber(record.food)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Lumper</p>
-              <p className="font-medium text-gray-800">${formatNumber(record.lumper)}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Pay</p>
-              <p className="font-medium text-gray-800">${formatNumber(record.pay)}</p>
-            </div>
+    <div className="max-w-2xl mx-auto mt-8 bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
+      <div className="px-6 py-4 bg-white ">
+        <h2 className="text-2xl font-bold text-gray-800"></h2>
+      </div>
+      <div className="p-6">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="border-b border-gray-200 pb-2">
+            <h3 className="font-semibold text-gray-700">PO Number</h3>
+            <p className="text-gray-600">{record.po_number}</p>
+          </div>
+          <div className="border-b border-gray-200 pb-2">
+            <h3 className="font-semibold text-gray-700">Date</h3>
+            <p className="text-gray-600">{record.date}</p>
+          </div>
+          <div className="border-b border-gray-200 pb-2">
+            <h3 className="font-semibold text-gray-700">From</h3>
+            <p className="text-gray-600">{record.location_from}</p>
+          </div>
+          <div className="border-b border-gray-200 pb-2">
+            <h3 className="font-semibold text-gray-700">To</h3>
+            <p className="text-gray-600">{record.location_to}</p>
+          </div>
+          <div className="border-b border-gray-200 pb-2">
+            <h3 className="font-semibold text-gray-700">DH Miles</h3>
+            <p className="text-gray-600">{formatNumber(record.dh_miles)}</p>
+          </div>
+          <div className="border-b border-gray-200 pb-2">
+            <h3 className="font-semibold text-gray-700">Miles</h3>
+            <p className="text-gray-600">{formatNumber(record.miles)}</p>
+          </div>
+          <div className="border-b border-gray-200 pb-2">
+            <h3 className="font-semibold text-gray-700">Fuel</h3>
+            <p className="text-gray-600">${formatNumber(record.fuel)}</p>
+          </div>
+          <div className="border-b border-gray-200 pb-2">
+            <h3 className="font-semibold text-gray-700">Food</h3>
+            <p className="text-gray-600">${formatNumber(record.food)}</p>
+          </div>
+          <div className="border-b border-gray-200 pb-2">
+            <h3 className="font-semibold text-gray-700">Lumper</h3>
+            <p className="text-gray-600">${formatNumber(record.lumper)}</p>
+          </div>
+          <div className="border-b border-gray-200 pb-2">
+            <h3 className="font-semibold text-gray-700">Pay</h3>
+            <p className="text-gray-600">${formatNumber(record.pay)}</p>
           </div>
         </div>
-        <div className="px-6 py-4 bg-gray-100 border-t border-gray-200 flex justify-between">
-          <Link 
-            to="/" 
-            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-          >
-            Back to List
-          </Link>
-          <Link 
-            to={`/records/${record.id}/edit`} 
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-          >
-            Edit
-          </Link>
-        </div>
+      </div>
+      <div className="px-6 py-4 bg-white flex justify-between">
+        <Link to="/" className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to List
+        </Link>
+        <Link to={`/records/${record.id}/edit`} className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+          <Edit className="mr-2 h-4 w-4" />
+          Edit
+        </Link>
       </div>
     </div>
   );
