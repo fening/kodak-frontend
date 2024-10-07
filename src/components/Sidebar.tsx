@@ -10,7 +10,6 @@ interface SidebarProps {
   closeSidebar: () => void;
 }
 
-
 const SidebarItem: React.FC<{ to: string; icon: React.ReactNode; text: string; onClick: () => void }> = ({ to, icon, text, onClick }) => (
   <li>
     <Link
@@ -42,26 +41,26 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, isDesktop, toggleSideb
   return (
     <>
       <aside
-        className={`bg-white text-gray-700 w-64 min-h-screen p-4 fixed transition-all duration-300 ease-in-out ${
+        className={`bg-white text-gray-700 w-64 fixed transition-all duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        } z-20 shadow-lg`}
+        } z-20 shadow-lg flex flex-col h-full max-h-screen`}
       >
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center p-4">
           <h2 className="text-2xl font-semibold text-gray-900">Menu</h2>
           <button onClick={closeSidebar} className="text-gray-500 hover:text-gray-700">
             <X size={24} />
           </button>
         </div>
 
-        <nav>
-          <ul className="space-y-2">
-            <SidebarItem to="/" icon={<Home size={20} />} text="Dashboard" onClick={() => {}}/>
-            <SidebarItem to="/records" icon={<FileText size={20} />} text="Records"onClick={() => {}}/>
-            <SidebarItem to="/records/new" icon={<PlusCircle size={20} />} text="New Record" onClick={() => {}}/>
+        <nav className="flex-grow overflow-y-auto">
+          <ul className="space-y-2 p-4">
+            <SidebarItem to="/" icon={<Home size={20} />} text="Dashboard" onClick={closeSidebar}/>
+            <SidebarItem to="/records" icon={<FileText size={20} />} text="Records" onClick={closeSidebar}/>
+            <SidebarItem to="/records/new" icon={<PlusCircle size={20} />} text="New Record" onClick={closeSidebar}/>
           </ul>
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4">
+        <div className="p-4 border-t border-gray-200">
           <Link
             to="/login"
             onClick={handleLogout}
