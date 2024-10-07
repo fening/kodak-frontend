@@ -38,7 +38,7 @@ const RecordForm: React.FC = () => {
       const fetchRecord = async () => {
         try {
           const token = JSON.parse(localStorage.getItem('user') || '{}').access;
-          const response = await axios.get(`http://127.0.0.1:8000/api/records/${id}/`, {
+          const response = await axios.get(`https://kodaklogisticsapi.up.railway.app/api/records/${id}/`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           setRecord(response.data);
@@ -67,9 +67,9 @@ const RecordForm: React.FC = () => {
       };
 
       if (isEditing) {
-        await axios.put(`kodaklogisticsapi.up.railway.app/api/records/${id}/`, record, axiosConfig);
+        await axios.put(`https://kodaklogisticsapi.up.railway.app/api/records/${id}/`, record, axiosConfig);
       } else {
-        await axios.post('kodaklogisticsapi.up.railway.app/api/records/add/', record, axiosConfig);
+        await axios.post('https://kodaklogisticsapi.up.railway.app/api/records/add/', record, axiosConfig);
       }
       navigate('/');
     } catch (error) {

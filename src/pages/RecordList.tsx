@@ -26,7 +26,7 @@ const RecordList: React.FC = () => {
   const fetchRecords = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user') || '{}')
-      const response = await axios.get('http://127.0.0.1:8000/api/records/', {
+      const response = await axios.get('https://kodaklogisticsapi.up.railway.app/api/records/', {
         headers: {
           Authorization: `Bearer ${user.access}`,
         },
@@ -46,7 +46,7 @@ const RecordList: React.FC = () => {
     if (window.confirm('Are you sure you want to delete this record?')) {
       try {
         const user = JSON.parse(localStorage.getItem('user') || '{}')
-        await axios.delete(`http://127.0.0.1:8000/api/records/${id}/`, {
+        await axios.delete(`https://kodaklogisticsapi.up.railway.app/api/records/${id}/`, {
           headers: {
             Authorization: `Bearer ${user.access}`,
           },

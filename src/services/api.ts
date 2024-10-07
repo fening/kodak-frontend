@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getAccessToken } from './AuthService';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  baseURL: 'https://kodaklogisticsapi.up.railway.app/api/',
 });
 
 api.interceptors.request.use(

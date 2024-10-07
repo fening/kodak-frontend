@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
     const fetchDashboardData = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('user') || '{}')
-        const response = await axios.get('kodaklogisticsapi.up.railway.app/api/dashboard/', {
+        const response = await axios.get('https://kodaklogisticsapi.up.railway.app/api/dashboard/', {
           headers: {
             Authorization: `Bearer ${user.access}`,
           },

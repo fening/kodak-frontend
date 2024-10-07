@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/';
+const API_URL = 'https://kodaklogisticsapi.up.railway.app/api/';
 
 export interface User {
   access: string;
