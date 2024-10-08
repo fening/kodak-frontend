@@ -19,9 +19,20 @@ interface DashboardData {
   monthlyData: { month: string; miles: number; pay: number }[]
 }
 
+const formatCurrency = (value: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(value)
+}
+
 const Dashboard: React.FC = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [startDate, setStartDate] = useState<string | null>(null)
+  const [endDate, setEndDate] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -31,6 +42,10 @@ const Dashboard: React.FC = () => {
           headers: {
             Authorization: `Bearer ${user.access}`,
           },
+          params: {
+            start_date: startDate,
+            end_date: endDate
+          }
         })
         setDashboardData(response.data)
       } catch (error) {
@@ -40,14 +55,38 @@ const Dashboard: React.FC = () => {
     }
 
     fetchDashboardData()
-  }, [])
+  }, [startDate, endDate])
 
   if (error) return <div className="text-red-500 font-semibold text-center py-8">{error}</div>
   if (!dashboardData) return <div className="flex justify-center items-center h-screen"><div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div></div>
 
   return (
     <div className="dashboard bg-white min-h-screen p-8">
-      
+      <div className="mb-8">
+        <div className="flex space-x-4">
+          <input
+            type="date"
+            value={startDate || ''}
+            onChange={(e) => setStartDate(e.target.value)}
+            className="border border-gray-300 rounded-lg p-2"
+            placeholder="Start Date"
+          />
+          <input
+            type="date"
+            value={endDate || ''}
+            onChange={(e) => setEndDate(e.target.value)}
+            className="border border-gray-300 rounded-lg p-2"
+            placeholder="End Date"
+          />
+          <button
+            onClick={() => { setStartDate(null); setEndDate(null); }}
+            className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg"
+          >
+            Clear Filter
+          </button>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-lg font-semibold text-gray-700 mb-2">Total Miles</h2>
@@ -55,7 +94,7 @@ const Dashboard: React.FC = () => {
         </div>
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-lg font-semibold text-gray-700 mb-2">Total Pay</h2>
-          <p className="text-3xl font-bold text-gray-900">${dashboardData.totalPay.toFixed(2)}</p>
+          <p className="text-3xl font-bold text-gray-900">{formatCurrency(dashboardData.totalPay)}</p>
         </div>
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-lg font-semibold text-gray-700 mb-2">Total Records</h2>
@@ -70,7 +109,7 @@ const Dashboard: React.FC = () => {
             {dashboardData.recentRecords.map(record => (
               <li key={record.id} className="border-b border-gray-300 pb-2">
                 <Link to={`/records/${record.id}`} className="text-gray-700 hover:text-black transition duration-300 ease-in-out">
-                  <span className="font-semibold">{record.date}</span> - {record.po_number} - <span className="font-semibold">${record.pay.toFixed(2)}</span>
+                  <span className="font-semibold">{record.date}</span> - {record.po_number} - <span className="font-semibold">{formatCurrency(record.pay)}</span>
                 </Link>
               </li>
             ))}
@@ -86,7 +125,7 @@ const Dashboard: React.FC = () => {
                 <XAxis dataKey="month" />
                 <YAxis yAxisId="left" orientation="left" stroke="#4B5563" />
                 <YAxis yAxisId="right" orientation="right" stroke="#1F2937" />
-                <Tooltip />
+                <Tooltip formatter={(value, name) => [name === 'Pay' ? formatCurrency(value as number) : value, name]} />
                 <Legend />
                 <Bar yAxisId="left" dataKey="miles" fill="#4B5563" name="Miles" />
                 <Bar yAxisId="right" dataKey="pay" fill="#1F2937" name="Pay" />

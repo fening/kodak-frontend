@@ -5,6 +5,9 @@ import { User } from 'lucide-react';
 const ProfilePage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,6 +21,16 @@ const ProfilePage: React.FC = () => {
     e.preventDefault();
     // Update user profile logic here
     console.log('Profile updated', { username, email });
+    
+    if (newPassword) {
+      if (newPassword !== confirmPassword) {
+        alert("New passwords don't match");
+        return;
+      }
+      console.log('Password changed');
+      // TODO: Implement API call to change password
+    }
+    
     // TODO: Implement API call to update profile
     // Navigate back to dashboard after updating profile
     navigate('/');
@@ -54,6 +67,45 @@ const ProfilePage: React.FC = () => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+              focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
+          />
+        </div>
+        <div>
+          <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700">
+            Current Password
+          </label>
+          <input
+            type="password"
+            id="currentPassword"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+              focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
+          />
+        </div>
+        <div>
+          <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">
+            New Password
+          </label>
+          <input
+            type="password"
+            id="newPassword"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
+              focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
+          />
+        </div>
+        <div>
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+            Confirm New Password
+          </label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm placeholder-gray-400
               focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
           />

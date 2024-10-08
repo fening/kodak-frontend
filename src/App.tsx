@@ -13,6 +13,7 @@ import SettingsPage from './pages/SettingsPage';
 import ProfilePage from './pages/ProfilePage';
 import PrivateRoute from './components/PrivateRoute';
 import { getCurrentUser, User, isAuthenticated } from './services/AuthService';
+import { NotificationProvider } from './components/NotificationContext';
 
 const AppContent: React.FC = () => {
   const hideOnPaths = ['/login', '/register'];
@@ -79,42 +80,54 @@ const AppContent: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  return (
-    <div className="flex h-screen bg-white">
-      {shouldShowSidebarAndHeader && (
-        <Sidebar 
-          isOpen={sidebarOpen} 
-          isDesktop={isDesktop} 
-          toggleSidebar={toggleSidebar}
-          closeSidebar={closeSidebar}
-        />
-      )}
-      <div className={`flex flex-col flex-1 overflow-hidden ${shouldShowSidebarAndHeader ? (sidebarOpen && isDesktop ? 'ml-64' : 'ml-0') : 'w-full'}`}>
+  const authenticatedContent = (
+    <NotificationProvider>
+      <div className="flex h-screen bg-white">
         {shouldShowSidebarAndHeader && (
-          <Header 
-            toggleSidebar={toggleSidebar} 
-            username={user?.user.username || ''}
-            pageTitle={getPageTitle(location.pathname)}
-            showMenuButton={!sidebarOpen || !isDesktop}
+          <Sidebar 
+            isOpen={sidebarOpen} 
+            isDesktop={isDesktop} 
+            toggleSidebar={toggleSidebar}
+            closeSidebar={closeSidebar}
           />
         )}
-        <main className={`flex-1 overflow-x-hidden overflow-y-auto ${shouldShowSidebarAndHeader ? 'p-4' : ''}`}>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-            <Route path="/records" element={<PrivateRoute><RecordList /></PrivateRoute>} />
-            <Route path="/records/new" element={<PrivateRoute><RecordForm /></PrivateRoute>} />
-            <Route path="/records/:id/edit" element={<PrivateRoute><RecordForm /></PrivateRoute>} />
-            <Route path="/records/:id" element={<PrivateRoute><RecordDetail /></PrivateRoute>} />
-            <Route path="/settings" element={<PrivateRoute><SettingsPage /></PrivateRoute>} />
-            <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </main>
-        {shouldShowSidebarAndHeader && <Footer />}
+        <div className={`flex flex-col flex-1 overflow-hidden ${shouldShowSidebarAndHeader ? (sidebarOpen && isDesktop ? 'ml-64' : 'ml-0') : 'w-full'}`}>
+          {shouldShowSidebarAndHeader && (
+            <Header 
+              toggleSidebar={toggleSidebar} 
+              username={user?.user.username || ''}
+              pageTitle={getPageTitle(location.pathname)}
+              showMenuButton={!sidebarOpen || !isDesktop}
+            />
+          )}
+          <main className={`flex-1 overflow-x-hidden overflow-y-auto ${shouldShowSidebarAndHeader ? 'p-4' : ''}`}>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/records" element={<RecordList />} />
+              <Route path="/records/new" element={<RecordForm />} />
+              <Route path="/records/:id/edit" element={<RecordForm />} />
+              <Route path="/records/:id" element={<RecordDetail />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
+          {shouldShowSidebarAndHeader && <Footer />}
+        </div>
       </div>
-    </div>
+    </NotificationProvider>
+  );
+
+  return (
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="*" element={
+        <PrivateRoute>
+          {authenticatedContent}
+        </PrivateRoute>
+      } />
+    </Routes>
   );
 };
 

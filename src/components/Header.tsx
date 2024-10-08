@@ -1,47 +1,45 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Menu, Bell, User, Settings, LogOut } from 'lucide-react'
-import { logout } from '../services/AuthService'
-import { NotificationPopup, Notification } from './Notification'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, Bell, User, Settings, LogOut } from 'lucide-react';
+import { logout } from '../services/AuthService';
+import { NotificationPopup } from './Notification';
+import { useNotifications } from '../components/NotificationContext';
 
 interface HeaderProps {
-  toggleSidebar: () => void
-  username: string
-  pageTitle: string
-  showMenuButton: boolean
+  toggleSidebar: () => void;
+  username: string;
+  pageTitle: string;
+  showMenuButton: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({ toggleSidebar, username, pageTitle, showMenuButton }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
-  const [notifications, setNotifications] = useState<Notification[]>([
-    { id: '1', message: 'New record added successfully', link: '/records/1', isRead: false },
-    { id: '2', message: 'Monthly report is ready', link: '/reports/monthly', isRead: false },
-    { id: '3', message: 'Profile update reminder', link: '/profile', isRead: false },
-  ])
-  const navigate = useNavigate()
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // Use the NotificationContext
+  const { notifications, unreadCount, markAsRead, refreshNotifications } = useNotifications();
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen)
-  }
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const toggleNotifications = () => {
-    setIsNotificationsOpen(!isNotificationsOpen)
-  }
+    setIsNotificationsOpen(!isNotificationsOpen);
+    if (!isNotificationsOpen) {
+      refreshNotifications();  // Refresh notifications when opening the popup
+    }
+  };
 
   const handleLogout = async (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
-    logout()
-    navigate('/login')
-  }
+    event.preventDefault();
+    logout();
+    navigate('/login');
+  };
 
   const handleMarkAsRead = (id: string) => {
-    setNotifications(notifications.map(notif => 
-      notif.id === id ? { ...notif, isRead: true } : notif
-    ))
-  }
-
-  const unreadCount = notifications.filter(n => !n.isRead).length
+    markAsRead(id);
+  };
 
   return (
     <header className="bg-white shadow-md p-4">
@@ -104,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar, username, pageTit
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

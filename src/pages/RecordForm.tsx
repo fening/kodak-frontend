@@ -79,20 +79,20 @@ const RecordForm: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white py-12 px-4 sm:px-6 lg:px-2">
-      <div className="max-w-2xl w-full space-y-8 bg-white p-10 rounded-xl ">
-        <div>
-          <h3 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {isEditing ? 'Edit' : 'Add'} Transport Record
-          </h3>
-        </div>
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 mt-6">
+      <div className="max-w-lg w-full bg-white p-6 rounded-lg shadow-lg md:p-10 lg:max-w-2xl">
+        <h3 className="text-center text-2xl md:text-3xl font-bold text-gray-900">
+          {isEditing ? 'Edit' : 'Add'} Transport Record
+        </h3>
+
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <div className="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
             <span className="block sm:inline">{error}</span>
           </div>
         )}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+        
+        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+          <div className="space-y-4">
             <div>
               <label htmlFor="date" className="sr-only">Date</label>
               <input
@@ -100,7 +100,7 @@ const RecordForm: React.FC = () => {
                 name="date"
                 type="date"
                 required
-                className="appearance-none rounded-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-500 rounded-t-md focus:outline-none focus:ring-black focus:border-black focus:z-10 text-lg"
+                className="block w-full px-4 py-3 text-lg md:text-xl border rounded-md focus:ring-2 focus:ring-black"
                 placeholder="Date"
                 value={record.date}
                 onChange={handleChange}
@@ -113,7 +113,7 @@ const RecordForm: React.FC = () => {
                 name="po_number"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 text-lg"
+                className="block w-full px-4 py-3 text-lg md:text-xl border rounded-md focus:ring-2 focus:ring-black"
                 placeholder="PO Number"
                 value={record.po_number}
                 onChange={handleChange}
@@ -126,7 +126,7 @@ const RecordForm: React.FC = () => {
                 name="location_from"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 text-lg"
+                className="block w-full px-4 py-3 text-lg md:text-xl border rounded-md focus:ring-2 focus:ring-black"
                 placeholder="Location From"
                 value={record.location_from}
                 onChange={handleChange}
@@ -139,7 +139,7 @@ const RecordForm: React.FC = () => {
                 name="location_to"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 text-lg"
+                className="block w-full px-4 py-3 text-lg md:text-xl border rounded-md focus:ring-2 focus:ring-black"
                 placeholder="Location To"
                 value={record.location_to}
                 onChange={handleChange}
@@ -153,7 +153,7 @@ const RecordForm: React.FC = () => {
                 type="number"
                 step="0.01"
                 required
-                className="appearance-none rounded-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 text-lg"
+                className="block w-full px-4 py-3 text-lg md:text-xl border rounded-md focus:ring-2 focus:ring-black"
                 placeholder="DH Miles"
                 value={record.dh_miles}
                 onChange={handleChange}
@@ -167,7 +167,7 @@ const RecordForm: React.FC = () => {
                 type="number"
                 step="0.01"
                 required
-                className="appearance-none rounded-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 text-lg"
+                className="block w-full px-4 py-3 text-lg md:text-xl border rounded-md focus:ring-2 focus:ring-black"
                 placeholder="Miles"
                 value={record.miles}
                 onChange={handleChange}
@@ -181,7 +181,7 @@ const RecordForm: React.FC = () => {
                 type="number"
                 step="0.01"
                 required
-                className="appearance-none rounded-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 text-lg"
+                className="block w-full px-4 py-3 text-lg md:text-xl border rounded-md focus:ring-2 focus:ring-black"
                 placeholder="Fuel"
                 value={record.fuel}
                 onChange={handleChange}
@@ -195,7 +195,7 @@ const RecordForm: React.FC = () => {
                 type="number"
                 step="0.01"
                 required
-                className="appearance-none rounded-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 text-lg"
+                className="block w-full px-4 py-3 text-lg md:text-xl border rounded-md focus:ring-2 focus:ring-black"
                 placeholder="Food"
                 value={record.food}
                 onChange={handleChange}
@@ -209,7 +209,7 @@ const RecordForm: React.FC = () => {
                 type="number"
                 step="0.01"
                 required
-                className="appearance-none rounded-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-black focus:border-black focus:z-10 text-lg"
+                className="block w-full px-4 py-3 text-lg md:text-xl border rounded-md focus:ring-2 focus:ring-black"
                 placeholder="Lumper"
                 value={record.lumper}
                 onChange={handleChange}
@@ -223,7 +223,7 @@ const RecordForm: React.FC = () => {
                 type="number"
                 step="0.01"
                 required
-                className="appearance-none rounded-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-black focus:border-black focus:z-10 text-lg"
+                className="block w-full px-4 py-3 text-lg md:text-xl border rounded-md focus:ring-2 focus:ring-black"
                 placeholder="Pay"
                 value={record.pay}
                 onChange={handleChange}
@@ -231,14 +231,12 @@ const RecordForm: React.FC = () => {
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-4 px-4 border border-transparent text-xl font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-            >
-              {isEditing ? 'Update' : 'Create'} Record
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-4 text-lg font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:ring-2 focus:ring-offset-2 focus:ring-black"
+          >
+            {isEditing ? 'Update' : 'Create'} Record
+          </button>
         </form>
       </div>
     </div>

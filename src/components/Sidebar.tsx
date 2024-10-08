@@ -36,6 +36,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, isDesktop, toggleSideb
     }
   };
 
+  const handleItemClick = () => {
+    if (!isDesktop) {
+      closeSidebar();
+    }
+  };
+
   if (!isOpen && isDesktop) return null;
 
   return (
@@ -54,16 +60,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, isDesktop, toggleSideb
 
         <nav className="flex-grow overflow-y-auto">
           <ul className="space-y-2 p-4">
-            <SidebarItem to="/" icon={<Home size={20} />} text="Dashboard" onClick={closeSidebar}/>
-            <SidebarItem to="/records" icon={<FileText size={20} />} text="Records" onClick={closeSidebar}/>
-            <SidebarItem to="/records/new" icon={<PlusCircle size={20} />} text="New Record" onClick={closeSidebar}/>
+            <SidebarItem to="/" icon={<Home size={20} />} text="Dashboard" onClick={handleItemClick} />
+            <SidebarItem to="/records" icon={<FileText size={20} />} text="Records" onClick={handleItemClick} />
+            <SidebarItem to="/records/new" icon={<PlusCircle size={20} />} text="New Record" onClick={handleItemClick} />
           </ul>
         </nav>
 
         <div className="p-4 border-t border-gray-200">
           <Link
             to="/login"
-            onClick={handleLogout}
+            onClick={(e) => {
+              handleLogout(e);
+              handleItemClick();
+            }}
             className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 text-gray-700 hover:text-black"
             role="button"
             aria-label="Logout"
